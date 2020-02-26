@@ -4,6 +4,10 @@ library(stringr)
 library(data.table)
 library(stringi)
 
+quanteda_options(threads=15)
+
+attach("Really the very final environment.RData")
+
 ui <- navbarPage("Amer Kanaan - Interactive Word Prediction Model",
                  tabPanel("Predictor",
                           verticalLayout(
@@ -48,10 +52,10 @@ ui <- navbarPage("Amer Kanaan - Interactive Word Prediction Model",
                           )
                  ),
                  tabPanel("About",
-                          p("This model is done if fulfilling the last project for John Hopkin's Coursera Capstone of Data Science Specialization.", tags$br(),
-"It utilizes an efficient (i.e. fast and memory-friendly) algorithm for interactively predicting the next word. The algorithm used the Stupid-Backoff method", a( "(Brants et al., 2007)", href= "https://www.aclweb.org/anthology/D07-1090/"), ".The interface should be intuitive and easy to use.", tags$br(),
+                          p("This model is done if fulfilling the last project for John Hopkin’s Coursera Capstone of Data Science Specialization.", tags$br(),
+"It utilizes an efficient (i.e. fast and memory-friendly) algorithm for interactively predicting the next word. The algorithm used the Stupid-Backoff method", a( "(Brants et al., 2007)", href= "https://www.aclweb.org/anthology/D07-1090/", target="_blank"), ".The interface should be intuitive and easy to use.", tags$br(),
                             "According to the benchmarking script provided by the course instructors, the expected precision of this model is just above 20% for the top-3 predictions.", tags$br(), tags$br(),
-                            "For code and scripts, please visit my", a("github repository." , href = "https://github.com/ameer-kanaan/WordPrediction")
+                            "For code and scripts, please visit my", a("github repository." , href = "https://github.com/ameer-kanaan/WordPrediction", target="_blank")
                             
                             )
                  )
@@ -73,7 +77,7 @@ server <- function(input, output) {
             
             output$prediction1 <- renderUI({
                   
-                  HTML(paste("First Prediction is: ",strong(pred [1])))
+                  HTML(paste("First Prediction is: ",strong(find_next_word(input$strings) [1])))
             })
             
             output$prediction2 <- renderUI({
